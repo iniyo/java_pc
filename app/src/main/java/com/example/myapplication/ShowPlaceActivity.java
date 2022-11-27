@@ -80,7 +80,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {//toolbar의 back키 눌렀을 때 동작
             // 액티비티 이동
             finish();
-            return true;
+            return true;//
         }
         return super.onOptionsItemSelected(item);//옵션메뉴 리턴*/
     }
