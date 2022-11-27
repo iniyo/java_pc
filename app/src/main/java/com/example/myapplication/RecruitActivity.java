@@ -115,7 +115,7 @@ public class RecruitActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
     }
     // 삭제하기 버튼 이벤트
-    public void deletebtn(){
+    public void deletebtn(View view){
         db.collection("post") //컬렉션 게시물 선택
                 .get() // 데이터 가져옴
                 .addOnCompleteListener(task -> {
@@ -125,12 +125,7 @@ public class RecruitActivity extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             assert user != null;
                             if(user.getUid().equals(Board.getUid())){ // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
-                                db.collection("post")
-                                        .document(id)//doc id와 일치할 경우 삭제
-                                        .delete()
-                                        .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
-                                        .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
-                                finish();
+                                deletepost();
                             }else if(user.getUid()!=Board.getUid()){
                                 Toast.makeText(rContext, " 삭제할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }
@@ -138,8 +133,18 @@ public class RecruitActivity extends AppCompatActivity {
                     }
                 });
     }
+    // 삭제하기 버튼 클릭시 가능한 경우
+    public void deletepost(){
+        db.collection("post")
+                .document(id)//doc id와 일치할 경우 삭제
+                .delete()
+                .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
+        finish();
+    }
+    
     // 수정하기 버튼 이벤트
-    public void retouchbtn(){
+    public void retouchbtn(View view){
         db.collection("post") //컬렉션 게시물 선택
                 .get() // 데이터 가져옴
                 .addOnCompleteListener(task -> {
@@ -149,23 +154,7 @@ public class RecruitActivity extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             assert user != null;
                             if(user.getUid().equals(Board.getUid())){ // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
-                                if (radio_together.isChecked()){
-                                    board.setTogether(radio_together.getText().toString()); // 같이하면 같이 저장
-                                }else if(radio_solo.isChecked()){
-                                    board.setSolo(radio_solo.getText().toString()); // 따로하면 따로 저장
-                                }
-                                db.collection("post")
-                                        .document(id)//doc id와 일치할 경우 수정
-                                        .update("board_name",title_et.getText().toString(),
-                                                "time",time_et.getText().toString(),
-                                                "delevery_info",delevey_et.getText().toString(),
-                                                "solo",radio_solo.getText().toString(),
-                                                "together",radio_together.getText().toString(),
-                                                "people_number",people_sp.getSelectedItem().toString()
-                                                )
-                                        .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
-                                        .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
-                                finish();
+                                retouch();
                             }
                             else if(user.getUid()!=Board.getUid()){
                                 Toast.makeText(rContext, " 수정할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
@@ -175,6 +164,25 @@ public class RecruitActivity extends AppCompatActivity {
                 });
     }
 
+    public void retouch(){
+        if (radio_together.isChecked()){
+            board.setTogether(radio_together.getText().toString()); // 같이하면 같이 저장
+        }else if(radio_solo.isChecked()){
+            board.setSolo(radio_solo.getText().toString()); // 따로하면 따로 저장
+        }
+        db.collection("post")
+                .document(id)//doc id와 일치할 경우 수정
+                .update("board_name",title_et.getText().toString(),
+                        "time",time_et.getText().toString(),
+                        "delevery_info",delevey_et.getText().toString(),
+                        "solo",radio_solo.getText().toString(),
+                        "together",radio_together.getText().toString(),
+                        "people_number",people_sp.getSelectedItem().toString()
+                )
+                .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
+        finish();
+    }
     // 등록하기 버튼 함수
     public void recruitbtn(View view){
         // 파이어베이스 store에 저장
