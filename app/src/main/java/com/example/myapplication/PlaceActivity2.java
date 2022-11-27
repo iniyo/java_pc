@@ -59,6 +59,7 @@ public class PlaceActivity2 extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환.
+                            Board.setId(document.getId());
                             if(place_name.equals(Board.getBoard_name())){ // 게시판이름이 동일한 경우에만.
                                 pBoardLists.add(Board);
                             }

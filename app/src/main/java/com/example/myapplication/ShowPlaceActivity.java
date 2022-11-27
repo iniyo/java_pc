@@ -23,6 +23,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;     //파이어베이스 인증처리
     private TextView title_txt;
     private Context shcontext;
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
         String showpeople = intent.getStringExtra("people_number");
         String showinfo = intent.getStringExtra("delevery_info");
         String dateview = intent.getStringExtra("time");
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
 
         // 사용하는 모든 텍스트들
         TextView show_title = findViewById(R.id.show_title); // 제목
@@ -56,20 +57,6 @@ public class ShowPlaceActivity extends AppCompatActivity {
         show_info.setText(showinfo);
         date_view1.setText(dateview);
 
-            db.collection("post") //컬렉션 게시물 선택
-                    .get() // 데이터 가져옴
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환.
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
-                                if(user.getUid().equals(Board.getUid())) { // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
-                                    String docID = document.getId(); // doc id
-                                    title_txt.setText(id);
-                                }
-                            }
-                        }
-                    });
 
         // 뒤로가기버튼 툴바
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
@@ -95,13 +82,17 @@ public class ShowPlaceActivity extends AppCompatActivity {
                             Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환.
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if(user.getUid().equals(Board.getUid())){ // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
-                                String docID = document.getId(); // doc id
-                                title_txt.setText(docID); // test
-                                db.collection("post")
-                                        .document(docID)//doc id와 일치할 경우 삭제
-                                        .delete()
-                                        .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
-                                        .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
+                                title_txt.setText(id); // test
+                                try{
+                                    db.collection("post")
+                                            .document(id)//doc id와 일치할 경우 삭제
+                                            .delete()
+                                            .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
+                                            .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
+
+                                }catch (Exception e){
+
+                                }
                             }
                         }
                     }

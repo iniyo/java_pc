@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환
+                            Board.setId(document.getId());
                             mBoardList.add(Board);
                         }
                         mainAdapter = new MainAdapter(mBoardList,context);

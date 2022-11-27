@@ -49,13 +49,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(context, ShowPlaceActivity.class); //look_memo.class부분에 원하는 화면 연결
+                item.getId();
+                Intent intent;//인텐트 선언
+                intent = new Intent(context, ShowPlaceActivity.class); //look_memo.class부분에 원하는 화면 연결
                 intent.putExtra("place_name", item.getBoard_name()); //장소이름
                 intent.putExtra("title_info", item.getTitle_info()); //제목
                 intent.putExtra("people_number", item.getPeople_number()); //총인원
                 intent.putExtra("delevery_info", item.getDelevery_info()); //상세정보
                 intent.putExtra("time", item.getTime());//등록시간
+                intent.putExtra("id", item.getId());//등록시간
                 context.startActivity(intent); //액티비티 열기
             }
         });
