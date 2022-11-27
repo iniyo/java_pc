@@ -103,7 +103,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                         .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
                                         .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                             }
-                        }
+                        }//
                     }
                 });
     }
