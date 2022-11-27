@@ -17,6 +17,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 
     private ArrayList<Board> board_lists;
     private Context context;
+
     //생성자
     public PlaceAdapter(ArrayList<Board> list, Context context) {
         board_lists = list;
@@ -47,7 +48,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                item.getId();
                 Intent intent;//인텐트 선언
                 intent = new Intent(context, ShowPlaceActivity.class); //look_memo.class부분에 원하는 화면 연결
                 intent.putExtra("place_name", item.getBoard_name()); //장소이름
