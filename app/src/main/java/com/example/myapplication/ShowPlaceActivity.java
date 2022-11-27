@@ -105,6 +105,6 @@ public class ShowPlaceActivity extends AppCompatActivity {
                             }
                         }
                     }
-                });
+                }); //
     }
 }
