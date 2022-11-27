@@ -164,6 +164,7 @@ public class RecruitActivity extends AppCompatActivity {
                 });
     }
 
+    //수정 이벤트
     public void retouch(){
         if (radio_together.isChecked()){
             board.setTogether(radio_together.getText().toString()); // 같이하면 같이 저장
@@ -172,14 +173,14 @@ public class RecruitActivity extends AppCompatActivity {
         }
         db.collection("post")
                 .document(id)//doc id와 일치할 경우 수정
-                .update("board_name",title_et.getText().toString(),
+                .update("board_name",place_sp.getSelectedItem().toString(),
                         "time",time_et.getText().toString(),
                         "delevery_info",delevey_et.getText().toString(),
                         "solo",radio_solo.getText().toString(),
                         "together",radio_together.getText().toString(),
                         "people_number",people_sp.getSelectedItem().toString()
                 )
-                .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 수정되었습니다. ", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
         finish();
     }
