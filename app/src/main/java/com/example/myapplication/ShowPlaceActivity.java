@@ -82,17 +82,11 @@ public class ShowPlaceActivity extends AppCompatActivity {
                             Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환.
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if(user.getUid().equals(Board.getUid())){ // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
-                                title_txt.setText(id); // test
-                                try{
-                                    db.collection("post")
-                                            .document(id)//doc id와 일치할 경우 삭제
-                                            .delete()
-                                            .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
-                                            .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
-
-                                }catch (Exception e){
-
-                                }
+                                db.collection("post")
+                                        .document(id)//doc id와 일치할 경우 삭제
+                                        .delete()
+                                        .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
+                                        .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                             }
                         }
                     }
