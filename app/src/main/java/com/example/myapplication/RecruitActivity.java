@@ -131,7 +131,7 @@ public class RecruitActivity extends AppCompatActivity {
                                         .addOnSuccessListener(aVoid -> Toast.makeText(rContext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
                                         .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                                 finish();
-                            }else{
+                            }else if(user.getUid()!=Board.getUid()){
                                 Toast.makeText(rContext, " 삭제할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -167,7 +167,7 @@ public class RecruitActivity extends AppCompatActivity {
                                         .addOnFailureListener(e -> Toast.makeText(rContext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                                 finish();
                             }
-                            else{
+                            else if(user.getUid()!=Board.getUid()){
                                 Toast.makeText(rContext, " 수정할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }
                         }

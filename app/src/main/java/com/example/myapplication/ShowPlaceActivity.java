@@ -80,7 +80,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
     }
 
     // 수정하기 버튼 이벤트
-    public void update(View view){
+    public void update_btn(View view){
         db.collection("post") //컬렉션 게시물 선택
                 .get() // 데이터 가져옴
                 .addOnCompleteListener(task -> {
@@ -103,15 +103,15 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                 }
                                 startActivity(reintent);//화면전환
                                 finish();//등록게시판 종료
-                            }else{
-                                Toast.makeText(shcontext, " 수정할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
+                            }else if(user.getUid()!=Board.getUid()){
+                                Toast.makeText(shcontext, " 삭제할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 });
     }
     // 삭제하기 버튼 이벤트
-    public void delete(View view){
+    public void delete_btn(View view){
         db.collection("post") //컬렉션 게시물 선택
                 .get() // 데이터 가져옴
                 .addOnCompleteListener(task -> {
@@ -119,6 +119,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Board Board = document.toObject(Board.class); // 오브젝트 형식으로 변환.
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+
                             if(user.getUid().equals(Board.getUid())){ // 로그인 되어있는 회원의 uid와 게시판에 저장된 uid와 일치할 경우 삭제
                                 db.collection("post")
                                         .document(id)//doc id와 일치할 경우 삭제
@@ -126,8 +127,8 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                         .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
                                         .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                                 finish();
-                            }else{
-                                Toast.makeText(shcontext, " 삭제할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
+                            }else if(user.getUid()!=Board.getUid()){
+                                Toast.makeText(shcontext, " 수정할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
