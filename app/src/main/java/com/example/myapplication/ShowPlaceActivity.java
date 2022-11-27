@@ -104,7 +104,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                         .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
                             }
                         }
-                    }
+                    }//
                 });
     }
 }
