@@ -23,7 +23,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;     //파이어베이스 인증처리
     private TextView title_txt;
     private Context shcontext;
-    private String id, place_name, showtitle, showpeople, showinfo, dateview;
+    private String id, place_name, showtitle, showpeople, showinfo, dateview, solo, together;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
         TextView show_info = findViewById(R.id.show_info); //보여줄 내용
         TextView show_placename = findViewById(R.id.show_placename); //장소이름
         TextView date_view1 = findViewById(R.id.date_view1); //시간
+
         title_txt = findViewById(R.id.title_txt);
 
         shcontext = this;
@@ -48,6 +49,11 @@ public class ShowPlaceActivity extends AppCompatActivity {
         showpeople = intent.getStringExtra("people_number");
         showinfo = intent.getStringExtra("delevery_info");
         dateview = intent.getStringExtra("time");
+        if(intent.getStringExtra("solo") != null){
+            solo = intent.getStringExtra("solo");
+        }else if(intent.getStringExtra("together") != null){
+            together = intent.getStringExtra("together");
+        }
         id = intent.getStringExtra("id");
 
 
@@ -90,6 +96,11 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                 reintent.putExtra("delevery_info", showinfo); //상세정보
                                 reintent.putExtra("time",  dateview);//등록시간
                                 reintent.putExtra("id",id);
+                                if(solo != null){
+                                    reintent.putExtra("solo",solo);
+                                }else if(together != null){
+                                    reintent.putExtra("together",together);
+                                }
                                 startActivity(reintent);//화면전환
                                 finish();//등록게시판 종료
                             }else{
@@ -114,6 +125,7 @@ public class ShowPlaceActivity extends AppCompatActivity {
                                         .delete()
                                         .addOnSuccessListener(aVoid -> Toast.makeText(shcontext, " 정상적으로 게시글이 삭제되었습니다. ", Toast.LENGTH_SHORT).show())
                                         .addOnFailureListener(e -> Toast.makeText(shcontext, " 게시글을 찾지 못했습니다. ", Toast.LENGTH_SHORT).show());
+                                finish();
                             }else{
                                 Toast.makeText(shcontext, " 삭제할 수 있는 권한이 없습니다. ", Toast.LENGTH_SHORT).show();
                             }

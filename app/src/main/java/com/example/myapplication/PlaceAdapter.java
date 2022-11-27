@@ -54,8 +54,14 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
                 intent.putExtra("title_info", item.getTitle_info()); //제목
                 intent.putExtra("people_number", item.getPeople_number()); //총인원
                 intent.putExtra("delevery_info", item.getDelevery_info()); //상세정보
-                intent.putExtra("time", item.getTime());//등록시간
-                intent.putExtra("id", item.getId());//등록시간
+                intent.putExtra("time", item.getTime()); //등록시간
+                if (item.getSolo() != null){
+                    intent.putExtra("id", item.getSolo()); //같이
+                }else if(item.getTogether() != null){
+                    intent.putExtra("id", item.getTogether()); //같이
+                }
+                intent.putExtra("id", item.getId());//id
+
                 context.startActivity(intent); //액티비티 열기
             }
         });
